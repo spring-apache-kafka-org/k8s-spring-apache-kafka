@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: spring-apache-kafka
+
+metadata:
+  name: arbitrary
+
+bases:
+  - ../../bases
+
+patchesStrategicMerge:
+  - patches/docker-config-json-secret.yaml
+  - patches/spring-apache-kafka-consumer-deployment-patch.yaml
+  - patches/spring-apache-kafka-consumer-service-patch.yaml
+  - patches/spring-apache-kafka-producer-deployment-patch.yaml
+  - patches/spring-apache-kafka-producer-service-patch.yaml

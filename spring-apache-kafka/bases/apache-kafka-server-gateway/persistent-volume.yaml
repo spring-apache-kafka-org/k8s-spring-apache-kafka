@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: apache-kafka-pv
+  namespace: spring-apache-kafka
+spec:
+  capacity:
+    storage: 3Gi
+  volumeMode: Filesystem
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /data/kafka
+    type: DirectoryOrCreate

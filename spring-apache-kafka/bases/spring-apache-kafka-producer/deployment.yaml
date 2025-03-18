@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-apache-kafka-producer
+  namespace: spring-apache-kafka
+  labels:
+    name: spring-apache-kafka-producer
+    app: spring-apache-kafka-producer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: spring-apache-kafka-producer
+      app: spring-apache-kafka-producer
+  template:
+    metadata:
+      name: spring-apache-kafka-producer
+      labels:
+        name: spring-apache-kafka-producer
+        app: spring-apache-kafka-producer
+    spec:
+      containers:
+        - name: spring-apache-kafka-producer
+          image: spring-apache-kafka-producer:0.0.0
+          imagePullPolicy: Always
+          env:
+            - name: POSTGRES_ADDRESS
+              value: "postgres-svc"
+          ports:
+            - containerPort: 8105

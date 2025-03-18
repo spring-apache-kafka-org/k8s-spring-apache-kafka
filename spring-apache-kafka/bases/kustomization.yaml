@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: spring-apache-kafka
+
+resources:
+  - namespace.yaml
+  - secrets/docker-config-json-secret.yaml
+  - apache-kafka-server-gateway/persistent-volume.yaml
+  - apache-kafka-server-gateway/persistent-volume-claim.yaml
+  - apache-kafka-server-gateway/deployment.yaml
+  - apache-kafka-server-gateway/service.yaml
+  - spring-apache-kafka-consumer/deployment.yaml
+  - spring-apache-kafka-consumer/service.yaml
+  - spring-apache-kafka-producer/deployment.yaml
+  - spring-apache-kafka-producer/service.yaml

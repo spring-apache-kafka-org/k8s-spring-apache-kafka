@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-apache-kafka-consumer
+  namespace: spring-apache-kafka
+  labels:
+    name: spring-apache-kafka-consumer
+    app: spring-apache-kafka-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: spring-apache-kafka-consumer
+      app: spring-apache-kafka-consumer
+  template:
+    metadata:
+      name: spring-apache-kafka-consumer
+      labels:
+        name: spring-apache-kafka-consumer
+        app: spring-apache-kafka-consumer
+    spec:
+      containers:
+        - name: spring-apache-kafka-consumer
+          image: spring-apache-kafka-consumer:0.0.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8106
