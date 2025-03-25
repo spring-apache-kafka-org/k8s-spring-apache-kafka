@@ -1,35 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: apache-kafka-1
+  name: apache-kafka
   namespace: spring-apache-kafka
 spec:
   ports:
     - port: 9092
-      targetPort: 9092
+      name: broker
+    - port: 9093
+      name: controller
+  clusterIP: None
   selector:
-    app: apache-kafka-1
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: apache-kafka-2
-  namespace: spring-apache-kafka
-spec:
-  ports:
-    - port: 9092
-      targetPort: 9092
-  selector:
-    app: apache-kafka-2
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: apache-kafka-3
-  namespace: spring-apache-kafka
-spec:
-  ports:
-    - port: 9092
-      targetPort: 9092
-  selector:
-    app: apache-kafka-3
+    app: apache-kafka

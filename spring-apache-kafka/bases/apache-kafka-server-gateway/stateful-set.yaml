@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: apache-kafka
+  namespace: spring-apache-kafka
+  labels:
+    app: apache-kafka
+spec:
+  serviceName: apache-kafka
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apache-kafka
+  template:
+    metadata:
+      labels:
+        app: apache-kafka
+    spec:
+      containers:
+        - name: apache-kafka
+          image: confluentinc/cp-kafka:latest
+          ports:
+            - containerPort: 9092
+              name: broker
+            - containerPort: 9093
+              name: controller
+          env:
+            - name: KAFKA_PROCESS_ROLES
+              value: "broker,controller"
+            - name: KAFKA_LISTENERS
+              value: "PLAINTEXT://apache-kafka-0.apache-kafka:9092,CONTROLLER://apache-kafka-0.apache-kafka:9093,PLAINTEXT_HOST://0.0.0.0:9092"
+            - name: KAFKA_CONTROLLER_LISTENER_NAMES
+              value: "CONTROLLER"
+            - name: KAFKA_CONTROLLER_QUORUM_VOTERS
+              value: "0@apache-kafka-0.apache-kafka:9093"
+            - name: CLUSTER_ID
+              value: "MkU3OEVBNTcwNTJENDM2Qk"
+            - name: KAFKA_LOG_DIRS
+              value: "/var/lib/kafka/data"
+          volumeMounts:
+            - name: apache-kafka-storage
+              mountPath: /var/lib/kafka/data
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "1"
+              memory: "2Gi"
+          livenessProbe:
+            tcpSocket:
+              port: 9092
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 9092
+            initialDelaySeconds: 20
+            periodSeconds: 10
+  volumeClaimTemplates:
+    - metadata:
+        name: apache-kafka-storage
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "gp2"   # Update based on your EKS storage class (e.g., gp2 or gp3)
+        resources:
+          requests:
+            storage: 10Gi

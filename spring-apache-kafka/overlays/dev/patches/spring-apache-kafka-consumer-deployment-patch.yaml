@@ -23,13 +23,11 @@ spec:
     spec:
       containers:
         - name: spring-apache-kafka-consumer
-          image: 431797214645.dkr.ecr.us-east-1.amazonaws.com/spring-apache-kafka-consumer:0.0.0
+          image: 202533499956.dkr.ecr.us-east-1.amazonaws.com/spring-apache-kafka-consumer:0.0.0
           imagePullPolicy: Always
           env:
-            - name: KAFKA_BROKER_URL
-              value: "tcp://localhost:29092"
-            - name: CONSUL_HTTP_ADDR
-              value: "http://localhost:8500"
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: "apache-kafka-0.apache-kafka.spring-apache-kafka.svc.cluster.local:9092"
           ports:
             - containerPort: 8106
       imagePullSecrets:
